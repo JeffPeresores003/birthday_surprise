@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Lato:wght@300;400;700&display=swap');
+@import 'tailwindcss';
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cda86a44; border-radius: 2px; }
+
+/* ── Floating petal animation ── */
+@keyframes petalFall {
+  0%   { transform: translateY(-60px) translateX(0px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.35; }
+  80%  { opacity: 0.2; }
+  100% { transform: translateY(110vh) translateX(80px) rotate(360deg); opacity: 0; }
+}
+
+/* ── Floating heart burst ── */
+@keyframes heartFloat {
+  0%   { transform: translateY(0) scale(0.5); opacity: 1; }
+  100% { transform: translateY(-160px) scale(1.2); opacity: 0; }
+}
+
+/* ── Confetti fall ── */
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Flame flicker ── */
+@keyframes flicker {
+  0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1) translateY(0); opacity: 1; }
+  25%       { transform: translateX(-50%) scaleY(1.08) scaleX(0.95) translateY(-1px); opacity: 0.92; }
+  50%       { transform: translateX(-50%) scaleY(0.95) scaleX(1.05) translateY(1px); opacity: 1; }
+  75%       { transform: translateX(-50%) scaleY(1.05) scaleX(0.98) translateY(-0.5px); opacity: 0.95; }
+}
+
+/* ── Wish confirmation pop ── */
+@keyframes wishPop {
+  0%   { transform: scale(0.8) translateY(10px); opacity: 0; }
+  60%  { transform: scale(1.05) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* ── Envelope letter slide & peek ── */
+@keyframes letterReveal {
+  0%   { opacity: 0; transform: translateY(-12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes peekOut {
+  0%   { opacity: 0; transform: translateY(-20px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Fullscreen Letter Backdrop & Card Animations ── */
+@keyframes backdropIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes backdropOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes letterExpand {
+  0%   { opacity: 0; transform: scale(0.3) translateY(120px); }
+  70%  { opacity: 1; transform: scale(1.03) translateY(-6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes letterCollapse {
+  0%   { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(0.2) translateY(160px); }
+}
+
+/* ── Gentle pulse for hearts in footer ── */
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.25); }
+}
+
+/* ── Realistic 3D Book Page Flip (Slow & Elegant) ── */
+@keyframes pageFlipNext {
+  0% {
+    transform: perspective(1400px) rotateY(0deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  50% {
+    transform: perspective(1400px) rotateY(-90deg) scale(0.95);
+    box-shadow: -35px 20px 50px rgba(0,0,0,0.8);
+  }
+  100% {
+    transform: perspective(1400px) rotateY(-180deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+}
+
+@keyframes pageFlipPrev {
+  0% {
+    transform: perspective(1400px) rotateY(-180deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  50% {
+    transform: perspective(1400px) rotateY(-90deg) scale(0.95);
+    box-shadow: 35px 20px 50px rgba(0,0,0,0.8);
+  }
+  100% {
+    transform: perspective(1400px) rotateY(0deg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #2a0f16;
+  overflow-x: hidden;
+}
+

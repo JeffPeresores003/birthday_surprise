@@ -1,0 +1,10 @@
+{
+  "description": "Create a romantic, interactive birthday greeting with heartfelt animations, personalized messages, and elegant design to celebrate your loved one.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

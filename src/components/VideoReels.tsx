@@ -144,18 +144,33 @@ function TikTokReelCard({
   onFullscreen,
 }: TikTokCardProps) {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isNearViewport, setIsNearViewport] = useState(index <= 1)
   const [likeCount, setLikeCount] = useState(1)
   const [hearts, setHearts] = useState<Heart[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const heartIdRef = useRef(0)
 
-  // IntersectionObserver to auto-play when centered in vertical feed
+  // IntersectionObserver to lazy load video source when within 400px of viewport
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
-    const observer = new IntersectionObserver(
+    // Proximity observer to start buffering only when near
+    const proximityObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsNearViewport(true)
+          }
+        })
+      },
+      { rootMargin: '400px 0px' },
+    )
+
+    // Playback observer to play/pause when centered
+    const playObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (!videoRef.current) return
@@ -171,8 +186,13 @@ function TikTokReelCard({
       { threshold: 0.6 },
     )
 
-    observer.observe(el)
-    return () => observer.disconnect()
+    proximityObserver.observe(el)
+    playObserver.observe(el)
+
+    return () => {
+      proximityObserver.disconnect()
+      playObserver.disconnect()
+    }
   }, [])
 
   const togglePlay = useCallback(() => {
@@ -217,26 +237,48 @@ function TikTokReelCard({
         width: '100%',
         height: 520,
         position: 'relative',
-        background: '#000',
+        background: '#12050b',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      {/* Video Element */}
+      {/* Background ambient gradient placeholder before video is loaded */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(ellipse at center, ${video.accentColor}22 0%, #12050b 80%)`,
+          display: isLoaded ? 'none' : 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1,
+        }}
+      >
+        <span style={{ color: video.accentColor, fontSize: 12, fontFamily: 'Lato, sans-serif', opacity: 0.6, letterSpacing: 1.5 }}>
+          Loading Reel...
+        </span>
+      </div>
+
+      {/* Lazy Loaded Video Element */}
       <video
         ref={videoRef}
-        src={video.src}
+        src={isNearViewport ? video.src : undefined}
+        preload={index === 0 ? 'auto' : isNearViewport ? 'metadata' : 'none'}
         loop
         muted={isMuted}
         playsInline
         onClick={handleCardClick}
+        onLoadedData={() => setIsLoaded(true)}
         style={{
           width: '100%',
           height: '100%',
           objectFit: 'cover',
           cursor: 'pointer',
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          zIndex: 2,
         }}
       />
 

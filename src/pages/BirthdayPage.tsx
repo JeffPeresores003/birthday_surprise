@@ -127,6 +127,10 @@ function HeroPhotoFrame() {
         <img
           src="/photos/12.png"
           alt={HER_NAME}
+          loading="eager"
+          decoding="async"
+          // @ts-ignore
+          fetchpriority="high"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         {/* Shimmer overlay on hover */}

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Sparkles, Heart as HeartIcon, Maximize2 } from 'lucide-react'
 import FloatingHeart, { type Heart } from './FloatingHeart'
 import { PETAL_COLORS } from '../constants'
@@ -520,6 +520,16 @@ export default function PhotoBook() {
 
   const activePage = SCRAP_PAGES[currentPage]
 
+  // Preload adjacent images in the background for instantaneous flip transitions
+  useEffect(() => {
+    const nextIdx = (currentPage + 1) % SCRAP_PAGES.length
+    const prevIdx = (currentPage - 1 + SCRAP_PAGES.length) % SCRAP_PAGES.length
+    const imgNext = new Image()
+    imgNext.src = SCRAP_PAGES[nextIdx].imageSrc
+    const imgPrev = new Image()
+    imgPrev.src = SCRAP_PAGES[prevIdx].imageSrc
+  }, [currentPage])
+
   const triggerPageChange = useCallback(
     (nextIdx: number, dir: 'next' | 'prev' = 'next') => {
       setAnimDirection(dir)
@@ -764,6 +774,8 @@ export default function PhotoBook() {
                   <img
                     src={activePage.imageSrc}
                     alt={activePage.title}
+                    loading="eager"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -1082,6 +1094,8 @@ export default function PhotoBook() {
               <img
                 src={p.imageSrc}
                 alt={p.title}
+                loading="lazy"
+                decoding="async"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
@@ -1146,6 +1160,7 @@ export default function PhotoBook() {
             <img
               src={lightboxImage}
               alt="Memory Expanded"
+              decoding="async"
               style={{
                 maxWidth: '100%',
                 maxHeight: '78vh',

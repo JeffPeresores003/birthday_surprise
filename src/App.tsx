@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import BirthdayPage from './pages/BirthdayPage'
 import CountdownPage from './pages/CountdownPage'
+import MusicPlayer from './components/MusicPlayer'
 
 /** Target Unlock Date: December 14 of current year */
 const isPastTargetDate = () => {
@@ -33,6 +34,7 @@ export default function App() {
   return (
     <>
       <BirthdayPage />
+      <MusicPlayer />
 
       {/* Developer Re-lock button (discreet at bottom right) */}
       <button
@@ -58,7 +60,7 @@ export default function App() {
         onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#cda86a' }}
         onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#cda86a88' }}
       >
-        🔒 Lock App (Dev Test)
+        Lock App (Dev Test)
       </button>
     </>
   )
